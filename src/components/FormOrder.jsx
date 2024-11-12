@@ -62,7 +62,7 @@ export const FormOrder = () => {
                 onChange={(e) => setOrder({ ...order, date: e.target.value })}
                 required
             />
-            <Button type="submit" disabled={isSubmitting}>
+            <Button type="submit" disabled={isSubmitting} className='p-1'>
                 {isSubmitting ? "Menambahkan..." : "Tambah Pemesanan"}
             </Button>
             {error && <p className="text-red-500 text-sm ml-2">{error}</p>}

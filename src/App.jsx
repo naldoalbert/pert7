@@ -25,7 +25,7 @@ import { TableOrder } from "./components/TableOrder";
 const App = () => {
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Aplikasi Pemesanan</h1>
+      <h1 className="text-2xl font-bold mt-5 mb-5 text-center">Pemesanan</h1>
       <FormOrder />
       <TableOrder />
     </div>

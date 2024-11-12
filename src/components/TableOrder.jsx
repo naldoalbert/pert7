@@ -7,9 +7,9 @@ export const TableOrder = () => {
     useEffect(() => {
         const getOrders = async () => {
             try {
-                const res = await fetch("http://localhost/pemesanan/api/index.php");
+                const res = await fetch("http://localhost/todo-app/api/index.php");
                 const data = await res.json();
-                setOrders(data);
+                setOrders(data); // Pastikan data ini benar
             } catch (error) {
                 console.error("Gagal mengambil pemesanan:", error);
             }
@@ -17,10 +17,18 @@ export const TableOrder = () => {
         getOrders();
     }, []);
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
     const updateOrder = async (orderId, currentStatus) => {
         try {
             const newStatus = currentStatus === "Dipesan" ? "Dibatalkan" : "Dipesan";
-            const res = await fetch("http://localhost/pemesanan/api/index.php", {
+            const res = await fetch("http://localhost/todo-app/api/index.php", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,7 +50,7 @@ export const TableOrder = () => {
 
     const deleteOrder = async (orderId) => {
         try {
-            const res = await fetch("http://localhost/pemesanan/api/index.php", {
+            const res = await fetch("http://localhost/todo-app/api/index.php", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -72,13 +80,16 @@ export const TableOrder = () => {
                 {orders.map((order) => (
                     <tr key={order.id}>
                         <td className="border border-gray-300 p-2">{order.name}</td>
-                        <td className="border border-gray-300 p-2">{order.date}</td>
+                        <td className="border border-gray-300 p-2">{formatDate(order.date)}</td>
                         <td className="border border-gray-300 p-2">{order.status}</td>
                         <td className="border border-gray-300 p-2">
-                            <Button onClick={() => updateOrder(order.id, order.status)}>
+                            <Button
+                                onClick={() => updateOrder(order.id, order.status)}
+                                className={order.status === "Dipesan" ? 'mx-5 bg-yellow-500' : 'mx-5 bg-blue-500'}
+                            >
                                 {order.status === "Dipesan" ? "Batalkan" : "Pesan Ulang"}
                             </Button>
-                            <Button onClick={() => deleteOrder(order.id)}>Hapus</Button>
+                            <Button onClick={() => deleteOrder(order.id)} className='bg-red-500'>Hapus</Button>
                         </td>
                     </tr>
                 ))}
